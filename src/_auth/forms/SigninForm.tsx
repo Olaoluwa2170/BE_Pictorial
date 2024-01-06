@@ -31,7 +31,7 @@ const SignupForm = () => {
     },
   })
  
-   const { mutateAsync: signInAccount, isPending : isSigningIn } = useSignInAccount()
+   const { mutateAsync: signInAccount, isPending : isSigningIn} = useSignInAccount()
 
   // 2. Define a submit handler.
   async function onSubmit(values: SignInSchema) {
@@ -45,7 +45,7 @@ const SignupForm = () => {
     if (!session) {
       return toast({
         variant: "destructive",
-        title: "Sign in failed. Please try again.",
+        title: "Invalid Credentials.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
       })
     }
@@ -68,7 +68,8 @@ const SignupForm = () => {
           <Form {...form}>
             <div className="sm:w-420 flex-center flex-col">
                 <img src="/assets/images/logo.svg" alt="logo" />
-                <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Sign up for an account</h2>
+                <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Sign in to your account</h2>
+                <p>Amateurs seek the sun. and Get eaten. but Power stays in the shadows</p>
               <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
                 
                 <FormField
@@ -96,14 +97,14 @@ const SignupForm = () => {
                     </FormItem>
                   )}
                 />
-               
-                <Button type="submit" disabled={form.formState.isSubmitting} className="shad-button_primary">
+
+               <Button type="submit" disabled={form.formState.isSubmitting} className="shad-button_primary">
                   {isSigningIn ? <Loading/> : 'Sign In'}
-                  </Button>
+                </Button>
               </form>
             </div>
             </Form>
-            <p className="mt-4 font-thin mr-2">Already have an account? <Link to={'/sign-in'} className="text-purple-500">Sign in</Link></p>
+            <p className="mt-4 font-thin mr-2">Don't have an account? <Link to={'/sign-up'} className="text-purple-500">Sign up</Link></p>
         </>
   )
 }
