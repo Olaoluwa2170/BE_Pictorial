@@ -71,6 +71,14 @@ export const signInAccount = async (user: {
         console.log(error)
     }
 }
+export const signOutAccount = async () => {
+    try {
+        const deleteSession = await account.deleteSession("current")
+        return deleteSession;
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const getCurrentUser = async () => {
     try {
