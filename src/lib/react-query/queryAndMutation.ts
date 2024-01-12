@@ -1,6 +1,6 @@
 import { useMutation} from "@tanstack/react-query";
-import { createUserAccount, signInAccount, signOutAccount } from "../apprite/api";
-import { INewUser } from "../types";
+import { createPost, createUserAccount, signInAccount, signOutAccount } from "../apprite/api";
+import { INewPost, INewUser } from "../types";
 
 // useCreateUserAccountMutation
 
@@ -23,3 +23,9 @@ export const useSignOutAccount = () => {
     })
 }
  
+
+export const useCreatePost = () => {
+    return useMutation({
+        mutationFn: (post: INewPost) => createPost(post)
+    })
+}

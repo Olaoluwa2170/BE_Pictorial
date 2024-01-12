@@ -1,6 +1,6 @@
 import { bottombarLinks } from '@/constants'
 import { INavLink } from '@/lib/types'
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Bottombar = () => {
   const {pathname} = useLocation()
@@ -9,15 +9,16 @@ const Bottombar = () => {
         {bottombarLinks.map((link: INavLink) => {
                   const isActive = pathname === link.route
                   return ( 
-                    <li className={`leftsidebar-link group ${
-                      isActive && 'bg-primary-500'
-                    }`} key={link.label}>
-                      <NavLink to={link.route}
-                        className={"flex gap-4 items-center p-4"}>
-                          <img src={link.imgURL} alt={link.label}  className={`group-hover:invert-white ${isActive && 'invert-white'}`}/>
-                        {link.label}
-                      </NavLink>
-                    </li>
+                    
+                      <Link 
+                        to={link.route}
+                        className={`${
+                          isActive && 'bg-primary-500 rounded-[10px]'
+                        } flex-center flex-col gap-1 p-2 transition`}>
+                          <img src={link.imgURL} alt={link.label} width={16} height={16} className={`group-hover:invert-white ${isActive && 'invert-white'}`}/>
+                        <p className='text-light-2 tiny-medium'>{link.label}</p>
+                      </Link>
+                    
                   )
                 })}
     </section>
