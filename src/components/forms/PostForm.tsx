@@ -15,31 +15,48 @@ import * as z from "zod"
 import FileUploader from "../shared/FileUploader"
 import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
+import { useCreatePost } from "@/lib/react-query/queryAndMutation"
+import { useAuthContext } from "@/context/AuthContext"
+import { toast } from "../ui/use-toast"
+import { useNavigate } from "react-router-dom"
 
 type PostFormProps = {
   post?: Models.Document; 
 }
 
 const PostForm = ({ post }: PostFormProps) => {
+
+   const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost()
+   const { user } = useAuthContext()
+   const navigate = useNavigate()
+
     const form = useForm<z.infer<typeof PostValidation>>({
         resolver: zodResolver(PostValidation),
         defaultValues: {
             caption: post ? post?.caption : "",
             file: [],
             location: post ? post?.location : "",
-            tags: post ? post?.tags.join(',') : "p"
+            tags: post ? post?.tags.join(',') : ""
         },
         })
         
         // 2. Define a submit handler.
-        function onSubmit(values: z.infer<typeof PostValidation>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+        async function onSubmit(values: z.infer<typeof PostValidation>) {
+          const newPost = await createPost({
+               ...values,
+               userId: user.id
+          })
+
+          if (!newPost) {
+            toast({
+              title: 'Please try again',
+              variant: 'destructive'
+            })
+          } navigate('/')
         }
         return (
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-9 w-full max-w-5xl">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col md:mb-0 mb-36 gap-9 w-full max-w-5xl">
                 <FormField
                   control={form.control}
                   name="caption"
@@ -105,7 +122,7 @@ const PostForm = ({ post }: PostFormProps) => {
                 />
                 <div className="flex gap-4 items-center justify-end">
                     <Button type="button" className="shad-button_dark_4">Cancel</Button>
-                    <Button type="button" className="shad-button_primary whitespace-nowrap">Submit</Button>
+                    <Button type="submit" className="shad-button_primary whitespace-nowrap">Submit</Button>
                 </div>
               </form>
             </Form> 
