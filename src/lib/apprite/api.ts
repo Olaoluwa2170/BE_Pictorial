@@ -117,7 +117,7 @@ export const createPost = async (post : INewPost) => {
             appwriteConfig.postCollectionId,
             ID.unique(),
             {
-                users: post.userId,
+                creator: post.userId,
                 caption: post.caption,
                 imageUrl: fileUrl.href,
                 ImageId: uploadedFile.$id,
@@ -162,4 +162,17 @@ export const getFilePreview = async (fileId: string) => {
     )
 
     return fileUrl
+}
+
+
+export const getRecentPosts = async () => {
+    const posts = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        [Query.orderDesc('$createdAt'), Query.limit(20)]
+    )
+
+    if (!posts) throw Error
+
+    return posts
 }

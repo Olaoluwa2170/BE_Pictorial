@@ -19,6 +19,7 @@ import { useCreatePost } from "@/lib/react-query/queryAndMutation"
 import { useAuthContext } from "@/context/AuthContext"
 import { toast } from "../ui/use-toast"
 import { useNavigate } from "react-router-dom"
+import Loader from "../shared/Loading"
 
 type PostFormProps = {
   post?: Models.Document; 
@@ -124,7 +125,9 @@ const PostForm = ({ post }: PostFormProps) => {
                 />
                 <div className="flex gap-4 items-center justify-end">
                     <Button type="button" className="shad-button_dark_4">Cancel</Button>
-                    <Button type="submit" className="shad-button_primary whitespace-nowrap">Submit</Button>
+                    <Button type="submit" className="shad-button_primary whitespace-nowrap">{
+                      isLoadingCreate ? <Loader /> : 'Submit'
+                    }</Button>
                 </div>
               </form>
             </Form> 
