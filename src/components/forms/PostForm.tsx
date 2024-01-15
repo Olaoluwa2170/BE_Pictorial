@@ -52,7 +52,9 @@ const PostForm = ({ post }: PostFormProps) => {
               title: 'Please try again',
               variant: 'destructive'
             })
-          } navigate('/')
+          } 
+          
+          navigate('/')
         }
         return (
             <Form {...form}>

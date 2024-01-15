@@ -10,7 +10,7 @@ const RootLayout = () => {
         <Topbar/>
         <LeftSidebar />
 
-        <section className="flex-col overflow-auto flex-1 h-full">
+        <section className="flex-col overflow-auto custom-scrollbar flex-1 h-full">
           <Outlet/>
         </section>
 

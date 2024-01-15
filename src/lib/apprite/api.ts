@@ -102,11 +102,9 @@ export const getCurrentUser = async () => {
 export const createPost = async (post : INewPost) => {
     try {
         const uploadedFile = await uploadFile(post.file[0])
-
         if (!uploadedFile) throw Error
 
-        const fileUrl = getFilePreview(uploadedFile.$id)
-
+        const fileUrl = await getFilePreview(uploadedFile.$id)
         if (!fileUrl) {
             await storage.deleteFile(appwriteConfig.storageId, uploadedFile.$id)
             throw Error
@@ -119,10 +117,10 @@ export const createPost = async (post : INewPost) => {
             appwriteConfig.postCollectionId,
             ID.unique(),
             {
-                creator: post.userId,
+                users: post.userId,
                 caption: post.caption,
-                imageUrl: fileUrl,
-                imageId: uploadedFile.$id,
+                imageUrl: fileUrl.href,
+                ImageId: uploadedFile.$id,
                 location: post.location,
                 tags: tags
             }
