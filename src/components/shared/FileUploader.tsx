@@ -4,17 +4,14 @@ import { Button } from "../ui/button"
 
 type FileUploaderProps = {
   fieldChange: (FILES: File[]) => void
-  mediaUrl: string
 }
 
-const FileUploader = ({ fieldChange, mediaUrl}: FileUploaderProps) => {
-  const [file, setFile] = useState<File[]>([])
-  const [fileUrl, setFileUrl] = useState<string>(mediaUrl)
+const FileUploader = ({ fieldChange}: FileUploaderProps) => {
+  const [fileUrl, setFileUrl] = useState<string>("")
   const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
-    setFile(acceptedFiles)
     fieldChange(acceptedFiles)
     setFileUrl(URL.createObjectURL(acceptedFiles[0]))
-  }, [file])
+  }, [fieldChange])
   const { getRootProps, getInputProps} = useDropzone({ 
     onDrop,
     accept: {
