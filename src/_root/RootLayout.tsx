@@ -8,7 +8,9 @@ const RootLayout = () => {
     <>
       <div className="w-full md:flex overflow-hidden">
         <Topbar/>
-        <LeftSidebar />
+        <div className="custom-scrollbar overflow-auto">
+          <LeftSidebar />
+        </div>
 
         <section className="flex-col overflow-auto custom-scrollbar flex-1 h-full">
           <Outlet/>
