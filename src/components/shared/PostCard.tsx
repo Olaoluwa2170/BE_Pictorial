@@ -2,9 +2,17 @@ import { Models } from "appwrite"
 import { Link } from "react-router-dom"
 import { MapPin } from 'lucide-react';
 import { multiFormatDateString as formatDate } from "@/lib/utils";
+import { useAuthContext } from "@/context/AuthContext";
+import PostStats from "./PostStats";
 
+interface postCardProps {
+    post : Models.Document
+}
 
-const PostCard = ({ post }: Models.Document) => {
+const PostCard = ({ post }: postCardProps) => {
+  const { user } = useAuthContext()
+
+  if (!post.creator) return;
   return (
     <div className="post-card">
       <div className="flex-between">
@@ -22,12 +30,31 @@ const PostCard = ({ post }: Models.Document) => {
                     </p>
                     -
                     <p className="subtle-semibold flex gap-1 items-center lg:small-regular">
-                        <MapPin className="w-4 text-gray-400"/> {post.location}
+                        <MapPin className="w-4 text-gray-400"/> {post.location || 'location'}
                     </p>
                 </div>
             </div>
         </div>
+            <Link className={`${user.id != post.creator.$id && "hidden"}`} to={`/update-post/${post.$id}`}>
+                <img src="/assets/icons/edit.svg" alt="edit" width={20} height={20} />
+            </Link>
       </div>
+            <Link to={`/posts/${post.$id}`}>
+                <div className="small-medium lg:base-medium py-5">
+                    <p>
+                        {post.caption}
+                    </p>
+                    <ul className="flex gap-1 mt-2">
+                            {post.tags.map((tag: string) => (
+                                <li key={tag} className="text-light-3">
+                                    #{tag}
+                                </li>
+                            ))}
+                    </ul>
+                </div>
+                <img src={post.imageUrl || 'assets/icons/profile-placeholder.svg'} className="post-card_img" alt="post image" />
+            </Link>
+            <PostStats post={post} userId={user.id}/>
     </div>
   )
 }
