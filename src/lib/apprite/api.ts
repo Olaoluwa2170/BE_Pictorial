@@ -104,7 +104,7 @@ export const createPost = async (post : INewPost) => {
         const uploadedFile = await uploadFile(post.file[0])
         if (!uploadedFile) throw Error
 
-        const fileUrl = await getFilePreview(uploadedFile.$id)
+        const fileUrl = getFilePreview(uploadedFile.$id)
         if (!fileUrl) {
             await storage.deleteFile(appwriteConfig.storageId, uploadedFile.$id)
             throw Error
@@ -151,13 +151,13 @@ export const uploadFile = async (file: File) => {
     }
 }
 
-export const getFilePreview = async (fileId: string) => {
+export const getFilePreview = (fileId: string) => {
     const fileUrl = storage.getFilePreview(
         appwriteConfig.storageId,
         fileId,
         2000,
         2000,
-        "top",
+        "bottom",
         100
     )
 
@@ -175,4 +175,63 @@ export const getRecentPosts = async () => {
     if (!posts) throw Error
 
     return posts
+}
+
+export const likePost = async (postId: string, likesArray:string[]) => {
+    try {        
+        const updatePost = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId,
+            {
+                likes: likesArray
+            }
+        )
+    
+        if (!updatePost) throw Error
+    
+        return updatePost
+    } catch (error) {
+        console.log(error)
+    }
+
+
+}
+
+export const savePost = async (postId: string, userId: string) => {
+    try {
+        const createSave = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.savesCollectionId,
+            ID.unique(),
+            {
+                post: postId,
+                user: userId
+            }
+        )
+
+        if (!createSave) throw Error
+
+        return createSave
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const deleteSavedPost = async (savedRecordId: string) => {
+    try {
+        const statusCode = await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.savesCollectionId,
+            savedRecordId
+        )
+    
+        if (!statusCode) throw Error
+    
+        return statusCode
+        
+    } catch (error) {
+        console.log(error)
+    }
 }
