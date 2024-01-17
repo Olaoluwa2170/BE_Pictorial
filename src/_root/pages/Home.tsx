@@ -1,5 +1,5 @@
 import { useGetRecentPosts } from "@/lib/react-query/queryAndMutation"
-import { Loader } from "@/components/shared/Loading"
+import { Loader } from "@/components/shared/Loader"
 import { Models } from "appwrite"
 import PostCard from "@/components/shared/PostCard"
 
