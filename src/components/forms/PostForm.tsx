@@ -7,19 +7,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { useAuthContext } from "@/context/AuthContext"
+import { useCreatePost, useUpdatePost } from "@/lib/react-query/queryAndMutation"
 import { PostValidation } from "@/lib/validation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Models } from "appwrite"
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 import * as z from "zod"
 import FileUploader from "../shared/FileUploader"
 import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
-import { useCreatePost, useUpdatePost } from "@/lib/react-query/queryAndMutation"
-import { useAuthContext } from "@/context/AuthContext"
 import { toast } from "../ui/use-toast"
-import { useNavigate } from "react-router-dom"
-import Loader from "../shared/Loading"
+
 
 type PostFormProps = {
   post?: Models.Document;
@@ -29,8 +29,7 @@ type PostFormProps = {
 const PostForm = ({ post, action }: PostFormProps) => {
 
    const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost()
-   const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
-    useUpdatePost();
+   const { mutateAsync: updatePost, isPending: isLoadingUpdate } = useUpdatePost();
    const { user } = useAuthContext()
    const navigate = useNavigate()
 
@@ -148,9 +147,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
                 />
                 <div className="flex gap-4 items-center justify-end">
                     <Button type="button" className="shad-button_dark_4">Cancel</Button>
-                    <Button type="submit" className="shad-button_primary whitespace-nowrap">{
-                      isLoadingCreate || isLoadingUpdate ? <Loader /> : 'Submit'
-                    }</Button>
+                    <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate || isLoadingUpdate}>
+                     {action} Post</Button>
                 </div>
               </form>
             </Form> 

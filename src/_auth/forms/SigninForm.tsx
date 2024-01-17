@@ -1,5 +1,5 @@
 // import { Button } from "@/components/ui/button"
-import Loading from "@/components/shared/Loading"
+import Loading from "@/components/shared/Loader"
 import { Button } from "@/components/ui/button"
 import {
   Form, FormControl, FormField, FormItem, FormLabel, FormMessage,

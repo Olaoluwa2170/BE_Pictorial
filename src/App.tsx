@@ -3,8 +3,8 @@ import AuthLayout from "./_auth/AuthLayout"
 import { SigninForm, SignupForm } from "./_auth/forms"
 import RootLayout from "./_root/RootLayout"
 import { AllUsers, CreatePost, EditPost, Home, PostDetail, Profile, Saved, UpdateProfile } from "./_root/pages"
-import { Toaster } from "./components/ui/toaster"
 import Explore from "./_root/pages/Explore"
+import { Toaster } from "./components/ui/toaster"
 // import Appwrite from './lib/apprite/Appwrite'
 
 function App() {

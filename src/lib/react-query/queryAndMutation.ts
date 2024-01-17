@@ -134,7 +134,7 @@ export const useUpdatePost = () => {
     });
   };
 
-export const useDeletepOST = () => {
+export const useDeletePost = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
