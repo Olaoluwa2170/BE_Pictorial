@@ -35,6 +35,28 @@ export const createUserAccount = async(user: INewUser) => {
 }
 
 
+export const getInfinitePosts = async ({ pageParam }: { pageParam: number }) => {
+    const queries: string[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
+  
+    if (pageParam) {
+      queries.push(Query.cursorAfter(pageParam.toString()));
+    }
+  
+    try {
+      const posts = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        queries
+      );
+  
+      if (!posts) throw Error;
+  
+      return posts;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 export const saveUserToDB = async (
     user: {
         accountId: string,
@@ -176,6 +198,24 @@ export const getRecentPosts = async () => {
 
     return posts
 }
+
+export async function getUserPosts(userId?: string) {
+    if (!userId) return;
+  
+    try {
+      const post = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
+      );
+  
+      if (!post) throw Error;
+  
+      return post;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 export const likePost = async (postId: string, likesArray:string[]) => {
     try {        
@@ -347,3 +387,21 @@ export async function updatePost(post: IUpdatePost) {
       console.log(error);
     }
   }
+
+  export async function searchPosts(searchTerm: string) {
+    try {
+      const posts = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        [Query.search("caption", searchTerm)]
+      );
+  
+      if (!posts) throw Error;
+  
+      return posts;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  

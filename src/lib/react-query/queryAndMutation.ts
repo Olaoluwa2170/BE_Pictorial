@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getPostById, getRecentPosts, likePost, savePost, signInAccount, signOutAccount, updatePost } from "../apprite/api";
+import { QueryFunction, useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserPosts, likePost, savePost, searchPosts, signInAccount, signOutAccount, updatePost } from "../apprite/api";
 import { INewPost, INewUser, IUpdatePost } from "../types";
 import { QUERY_KEYS } from "./queryKeys";
 
@@ -122,6 +122,42 @@ export const useGetPostById = ( postId : string ) => {
     })
   }
     
+  export const useGetUserPosts = (userId?: string) => {
+    return useQuery({
+      queryKey: [QUERY_KEYS.GET_USER_POSTS, userId],
+      queryFn: () => getUserPosts(userId),
+      enabled: !!userId,
+    });
+  };
+
+  export const useGetPosts = () => {
+    return useInfiniteQuery({
+      queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+      queryFn: getInfinitePosts,
+      getNextPageParam: (lastPage: unknown) => {
+        // If there's no data, there are no more pages.
+        if (lastPage && lastPage.documents.length === 0) {
+          return null;
+        }
+  
+        // Use the $id of the last document as the cursor.
+        const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
+        return lastId;
+      },
+      initialPageParam : null
+    });
+  };
+
+
+  export const useSearchPosts = (searchTerm: string) => {
+    return useQuery({
+      queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
+      queryFn: () => searchPosts(searchTerm),
+      enabled: !!searchTerm,
+    });
+  };
+
+
 export const useUpdatePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
