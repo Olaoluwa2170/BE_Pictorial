@@ -8,13 +8,13 @@ import { useGetPosts, useSearchPosts } from "@/lib/react-query/queryAndMutation"
 
 export type SearchResultProps = {
   isSearchFetching: boolean;
-  searchedPosts: string;
+  searchedPosts: unknown;
 };
 
 const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) => {
   if (isSearchFetching) {
     return <Loader />;
-  } else if (searchedPosts && searchedPosts.documents.length > 0) {
+  } else if (searchedPosts?.documents && searchedPosts.documents.length > 0) {
     return <GridPostList posts={searchedPosts.documents} />;
   } else {
     return (
@@ -27,7 +27,7 @@ const Explore = () => {
   const { ref, inView } = useInView();
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
 
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<string>("");
   const debouncedSearch = useDebounce(searchValue, 500);
   const { data: searchedPosts, isFetching: isSearchFetching } = useSearchPosts(debouncedSearch);
 
@@ -96,7 +96,7 @@ const Explore = () => {
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
           posts.pages.map((item, index) => (
-            <GridPostList key={`page-${index}`} posts={item.documents} />
+            <GridPostList key={`page-${index}`} posts={item?.documents ?? []} />
           ))
         )}
       </div>

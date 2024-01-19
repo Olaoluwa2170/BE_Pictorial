@@ -37,10 +37,13 @@ export const createUserAccount = async(user: INewUser) => {
 
 export const getInfinitePosts = async ({ pageParam }: { pageParam: number }) => {
     const queries: string[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
-  
+
+    
     if (pageParam) {
       queries.push(Query.cursorAfter(pageParam.toString()));
     }
+
+
   
     try {
       const posts = await databases.listDocuments(

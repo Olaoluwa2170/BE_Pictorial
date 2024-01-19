@@ -1,4 +1,5 @@
-import { QueryFunction, useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserPosts, likePost, savePost, searchPosts, signInAccount, signOutAccount, updatePost } from "../apprite/api";
 import { INewPost, INewUser, IUpdatePost } from "../types";
 import { QUERY_KEYS } from "./queryKeys";
@@ -134,14 +135,15 @@ export const useGetPostById = ( postId : string ) => {
     return useInfiniteQuery({
       queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
       queryFn: getInfinitePosts,
-      getNextPageParam: (lastPage: unknown) => {
+      getNextPageParam: (page: unknown | undefined) => {
         // If there's no data, there are no more pages.
-        if (lastPage && lastPage.documents.length === 0) {
+        
+        if ((page as any)?.documents && (page as any)?.documents.length === 0) {
           return null;
         }
-  
+        
         // Use the $id of the last document as the cursor.
-        const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
+        const lastId = (page as any)?.documents[(page as any)?.documents.length - 1].$id;
         return lastId;
       },
       initialPageParam : null
