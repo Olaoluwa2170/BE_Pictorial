@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -8,7 +9,7 @@ import { useGetPosts, useSearchPosts } from "@/lib/react-query/queryAndMutation"
 
 export type SearchResultProps = {
   isSearchFetching: boolean;
-  searchedPosts: unknown;
+  searchedPosts?: any;
 };
 
 const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) => {
