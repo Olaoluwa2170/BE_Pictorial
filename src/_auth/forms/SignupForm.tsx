@@ -29,8 +29,6 @@ const SignupForm = () => {
       name: "",
       email: "",
       password: "",
-      // passwordConfirm: ""
-
     },
   })
  
