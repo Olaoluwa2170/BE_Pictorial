@@ -64,7 +64,7 @@ import { useNavigate } from "react-router-dom";
                 localStorage.getItem('cookieFallback') === '[]' || 
                 localStorage.getItem('cookieFallback') === ''
             ) navigate('/sign-in')
-
+                
             checkAuthUser()
        }, [])
 

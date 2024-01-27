@@ -66,10 +66,9 @@ const SignupForm = () => {
   return (
         <>
           <Form {...form}>
-            <div className="sm:w-420 flex-center flex-col">
-                <img src="/assets/images/logo.svg" alt="logo" />
+            <div className="sm:w-420 px-10 flex-center flex-col">
+                <p className="text-purple-300 text-center mt-2">Amateurs seek the sun. and Get eaten. but Power stays in the shadows</p>
                 <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Sign in to your account</h2>
-                <p>Amateurs seek the sun. and Get eaten. but Power stays in the shadows</p>
               <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
                 
                 <FormField

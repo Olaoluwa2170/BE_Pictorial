@@ -16,12 +16,12 @@ function App() {
         {/* Public */}
         <Route element = {<AuthLayout />}>
           <Route path="/sign-up" element={<SignupForm />} />
-          <Route path="/sign-in" element={<SigninForm />} />
+          <Route path="/sign-in" index element={<SigninForm />} />
         </Route>
         
         {/* Private */}
         <Route element = {<RootLayout />}>
-          <Route index element= {<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore/>}/>
           <Route path="/saved" element={<Saved/>}/>
           <Route path="/all-users" element={<AllUsers/>}/>
