@@ -10,9 +10,7 @@ import { Toaster } from "./components/ui/toaster"
 function App() {
 
   return (
-    <>
-          <div className="bg-white h-10 w-full"></div>
-
+    <>         
       <main className="flex h-screen">
       <Routes>
         {/* Public */}
