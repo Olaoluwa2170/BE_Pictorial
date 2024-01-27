@@ -6,13 +6,13 @@ import { Outlet } from "react-router-dom"
 const RootLayout = () => {
   return (
     <>
-      <div className="w-full md:flex overflow-hidden">
+      <div className="w-full md:flex h-screen overflow-hidden">
         <Topbar/>
         <div className="custom-scrollbar overflow-auto">
           <LeftSidebar />
         </div>
 
-        <section className="flex-col overflow-auto custom-scrollbar flex-1 h-full">
+        <section className="flex-col overflow-auto custom-scrollbar h-[80%] flex-1 md:h-full">
           <Outlet/>
         </section>
 

@@ -3,9 +3,10 @@ import { Button } from '../ui/button'
 import { useSignOutAccount } from '@/lib/react-query/queryAndMutation'
 import { useEffect } from 'react'
 import { useAuthContext } from '@/context/AuthContext'
+import { Accessibility } from 'lucide-react';
 
 const Topbar = () => {
-    const {mutate: signOut, isSuccess } = useSignOutAccount()
+    const {mutate: signOut, isSuccess, isPending } = useSignOutAccount()
     const {user} = useAuthContext()
     const navigate = useNavigate()
 
@@ -30,8 +31,8 @@ const Topbar = () => {
             <div className='flex gap-4'>
                 <Button variant='ghost' className='shad-button_ghost'
                     onClick={() => signOut()}>
-                    <img src="/assets/icons/logout.svg"
-                         alt="logo" />
+                    {isPending ? <Accessibility/> : <img src="/assets/icons/logout.svg"
+                         alt="logo" />}
                 </Button>
                 <Link to={`/profile/${user.id}`} className='flex-center gap-3'>
                         <img src={user.imageUrl || 'assets/icons/profile-placeholder.svg'}
