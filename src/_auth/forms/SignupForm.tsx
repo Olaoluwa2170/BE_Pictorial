@@ -29,7 +29,7 @@ const SignupForm = () => {
       name: "",
       email: "",
       password: "",
-      passwordConfirm: ""
+      // passwordConfirm: ""
 
     },
   })
@@ -79,7 +79,7 @@ const SignupForm = () => {
         <>
           <Form {...form}>
             <div className="sm:w-420 flex-center flex-col">
-                <img src="/assets/images/logo.svg" alt="logo" />
+                <p></p>
                 <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Sign up for an account</h2>
               <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
                 <FormField
@@ -133,7 +133,7 @@ const SignupForm = () => {
                     </FormItem>
                   )}
                 />
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="passwordConfirm"
                   render={({ field }) => (
@@ -145,7 +145,7 @@ const SignupForm = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
                 <Button type="submit" disabled={form.formState.isSubmitting} className="shad-button_primary">
                   {isCreatingUser ? <Loading/> : 'Sign Up'}
                   </Button>
